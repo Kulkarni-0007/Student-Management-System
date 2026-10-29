@@ -1,0 +1,17 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17', cache: maven }
+      - name: Build fat jar
+        run: mvn -B -q package
+      - name: Compile and run tests
+        run: |
+          JAR=target/student-management-system-1.0.0.jar
+          mkdir -p target/test-classes
+          javac -d target/test-classes -cp "$JAR" src/test/java/com/pavan/sms/SelfTest.java
+          java -cp "target/test-classes:$JAR" com.pavan.sms.SelfTest

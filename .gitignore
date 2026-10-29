@@ -1,0 +1,7 @@
+target/
+out/
+*.db
+.idea/
+.vscode/
+*.class
+*.csv
